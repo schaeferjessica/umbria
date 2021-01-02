@@ -17,7 +17,7 @@ export default createGlobalStyle`
   html {
     font-size: 18px;
     line-height: 1.5;
-    font-family: 'Inter', 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell',
+    font-family: 'Spartan', 'Roboto', 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell',
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

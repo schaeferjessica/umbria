@@ -1,3 +1,4 @@
+import '../../../static/fonts.css';
 import React from 'react';
 import GlobalNormalizer from '../../styles/normalize';
 import GlobalStyles from '../../styles/styles';
