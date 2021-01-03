@@ -31,6 +31,15 @@ const Intro = ({ title }) => {
   `);
   const { openingTime, closingTime } = openingHours.hours;
 
+  const jumpTo = (e) => {
+    e.preventDefault();
+
+    window.scrollTo({
+      top: document.querySelector('#openingHours').offsetTop,
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
     const currentDate = new Date();
     const actualDate = new Date(openingTime);
@@ -52,7 +61,7 @@ const Intro = ({ title }) => {
   return (
     <IntroContainer className="container">
       <h1>{title}</h1>
-      <a href="#comingsoon" className="button">
+      <a href="#openingHours" className="button" onClick={(e) => jumpTo(e)}>
         {isOpen ? 'wir haben geöffnet' : 'wir haben geschlossen'}
       </a>
     </IntroContainer>

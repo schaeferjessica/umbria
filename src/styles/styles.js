@@ -33,5 +33,8 @@ export default createGlobalStyle`
     padding: 20px;
     border: 1px solid currentColor;
     text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
   }
 `;

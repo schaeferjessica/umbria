@@ -8,6 +8,10 @@ export default createGlobalStyle`
     padding-left: 150px;
     padding-right: 150px;
     
+    @media ${devices.tablet} {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
 
     @media ${devices.mobile} {
       padding-left: 20px;
@@ -19,7 +23,7 @@ export default createGlobalStyle`
 export const moduleSpace = `
   margin-top: 150px;
 
-  @media ${devices.mobile} {
+  @media ${devices.tablet} {
     margin-top: 60px;
   }
 `;
