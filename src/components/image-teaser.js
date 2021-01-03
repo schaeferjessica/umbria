@@ -26,7 +26,7 @@ const TeaserText = styled.div`
     padding-left: 0;
     padding-right: 0;
     width: 100%;
-    margin-top: 60px;
+    margin-top: 20px;
   }
 
   h2 {

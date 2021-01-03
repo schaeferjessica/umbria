@@ -60,6 +60,10 @@ export const MenuList = styled.ul`
   li:not(:last-child) {
     margin-bottom: 60px;
   }
+
+  li strong {
+    font-weight: 500;
+  }
 `;
 
 const Menu = ({ data, updateFakeScroll }) => {

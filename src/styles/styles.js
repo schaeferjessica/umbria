@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { devices } from './breakpoints';
 
 export default createGlobalStyle`
   // adding own globals styles //----------------------------------------
@@ -23,6 +24,10 @@ export default createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     color: ${(props) => props.color.red};
     background-color: ${(props) => props.color.redLight};
+
+    @media ${devices.mobile} {
+      font-size: 16px;
+    }
   }
 
   a {
@@ -30,11 +35,18 @@ export default createGlobalStyle`
   }
 
   .button {
-    padding: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 16px;
     border: 1px solid currentColor;
     text-decoration: none;
     display: inline-block;
     text-align: center;
     font-size: 16px;
+
+    @media ${devices.mobile} {
+      font-size: 14px;
+    }
   }
 `;
