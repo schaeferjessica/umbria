@@ -28,4 +28,10 @@ export default createGlobalStyle`
   a {
     color: ${(props) => props.color.red};
   }
+
+  .button {
+    padding: 20px;
+    border: 1px solid currentColor;
+    text-decoration: none;
+  }
 `;

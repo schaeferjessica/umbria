@@ -7,7 +7,6 @@ module.exports = {
     description: `Besuchen Sie uns in unserem Ristorante Feinkost Umbria. Markthalle, Hauptstraße 65, 97204 Höchberg. Öffnungszeiten: Montag-Sonntag 10:00-14:30, 17:00-22:00`,
     keywords:
       'Umbria, Höchberg, Würzburg, Feinkost, Pizza, Eis, Italienisch, Restaurant',
-    ogdescription: 'Wir bieten Ihnen täglich hausgemachte Pizza, Pasta & Gelato sowie weitere Spezialitäten der italienischen Küche an. Unser name Umbrien (italienisch Umbria) kommt von einer Region Italiens, die zwischen der Toskana, Latium und den Marken liegt'.
   },
   plugins: [
     {
