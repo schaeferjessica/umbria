@@ -9,6 +9,10 @@ import useContenfulImageTeasers from '../hooks/use-imageteasers';
 import useContenfulMenu from '../hooks/use-menu';
 import styled from 'styled-components';
 
+export const ImageTeaserWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
 export const FakeScroll = styled.div`
   position: absolute;
   top: 0;
@@ -48,13 +52,15 @@ const IndexPage = () => {
       <SEO />
       <Header />
       <Intro title="Feinkost Umbria" />
-      {imageTeasers.map((imageTeaser, index) => (
-        <ImageTeaser
-          key={imageTeaser.title}
-          data={imageTeaser}
-          side={isEven(index) ? 'right' : 'left'}
-        />
-      ))}
+      <ImageTeaserWrapper>
+        {imageTeasers.map((imageTeaser, index) => (
+          <ImageTeaser
+            key={imageTeaser.title}
+            data={imageTeaser}
+            side={isEven(index) ? 'right' : 'left'}
+          />
+        ))}
+      </ImageTeaserWrapper>
       <Menu data={menu} updateFakeScroll={() => setFinalPageHeight()} />
       <FakeScroll
         id="fake-scroll"

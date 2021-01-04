@@ -19,6 +19,7 @@
   "repository": "git@github.com:schaeferjessica/umbria.git",
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^14.1.2",
+    "animejs": "^3.2.1",
     "babel-plugin-styled-components": "^1.12.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
@@ -31,6 +32,7 @@
     "react-app": "^1.1.2",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
+    "react-intersection-observer": "^8.31.0",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

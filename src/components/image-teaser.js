@@ -1,16 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { moduleSpace } from '../styles/container';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { devices } from '../styles/breakpoints';
 import ThemeContext from '../styles/themecontext';
+import { useInView } from 'react-intersection-observer';
+import anime from 'animejs/lib/anime.es.js';
 
+const TeaserContainer = styled.div`
+  opacity: 0;
+  transform: ${(props) =>
+    props.side === 'right' ? 'translateX(500px)' : 'translateX(-500px)'};
+  ${moduleSpace}
+`;
 const Teaser = styled.div`
   display: flex;
   flex-direction: ${(props) =>
     props.side === 'right' ? 'row' : 'row-reverse'};
   align-items: center;
-  ${moduleSpace}
 
   @media ${devices.tablet} {
     display: block;
@@ -84,43 +91,60 @@ const CopyrightButton = styled.button`
 const ImageTeaser = ({ data, side }) => {
   const [copyrightActive, setCopyrightActive] = useState(false);
   const { colors } = useContext(ThemeContext);
+  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
+  const teaserEl = useRef(null);
+
+  useEffect(() => {
+    if (inView) {
+      const animation = anime({
+        targets: teaserEl.current,
+        translateX: [side === 'right' ? 500 : -500, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1400,
+      });
+      animation.play();
+    }
+  }, [inView, ref, side]);
 
   return (
-    <Teaser className="container" side={side} id={data.id}>
-      <TeaserImage>
-        <picture>
-          <img src={data.image} alt={data.altText} />
-        </picture>
-        <Figcaption>
-          <CopyrightButton
-            color={colors}
-            onMouseEnter={() => setCopyrightActive(true)}
-            onMouseLeave={() => setCopyrightActive(false)}
-          >
-            ©
-          </CopyrightButton>
-          <span style={{ opacity: copyrightActive ? '1' : '0' }}>
-            {data.copyright}
-          </span>
-        </Figcaption>
-      </TeaserImage>
-      <TeaserText side={side}>
-        <h2>{data.title}</h2>
-        {documentToReactComponents(JSON.parse(data.text))}
-        {data.linkUrl ? (
-          <a
-            className="button"
-            href={data.linkUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {data.linkText}
-          </a>
-        ) : data.linkText ? (
-          <div className="button">{data.linkText}</div>
-        ) : null}
-      </TeaserText>
-    </Teaser>
+    <TeaserContainer ref={teaserEl} side={side}>
+      <Teaser className="container" side={side} id={data.id} ref={ref}>
+        <TeaserImage>
+          <picture>
+            <img src={data.image} alt={data.altText} />
+          </picture>
+          <Figcaption>
+            <CopyrightButton
+              color={colors}
+              onMouseEnter={() => setCopyrightActive(true)}
+              onMouseLeave={() => setCopyrightActive(false)}
+            >
+              ©
+            </CopyrightButton>
+            <span style={{ opacity: copyrightActive ? '1' : '0' }}>
+              {data.copyright}
+            </span>
+          </Figcaption>
+        </TeaserImage>
+        <TeaserText side={side}>
+          <h2>{data.title}</h2>
+          {documentToReactComponents(JSON.parse(data.text))}
+          {data.linkUrl ? (
+            <a
+              className="button"
+              href={data.linkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {data.linkText}
+            </a>
+          ) : data.linkText ? (
+            <div className="button">{data.linkText}</div>
+          ) : null}
+        </TeaserText>
+      </Teaser>
+    </TeaserContainer>
   );
 };
 
