@@ -35,7 +35,7 @@ const Intro = ({ title }) => {
     e.preventDefault();
 
     window.scrollTo({
-      top: document.querySelector('#openingHours').offsetTop - 100,
+      top: document.querySelector('#openingHours').offsetTop - 80,
       behavior: 'smooth',
     });
   };
