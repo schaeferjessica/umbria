@@ -8,9 +8,6 @@ import { useInView } from 'react-intersection-observer';
 import anime from 'animejs/lib/anime.es.js';
 
 const TeaserContainer = styled.div`
-  opacity: 0;
-  transform: ${(props) =>
-    props.side === 'right' ? 'translateX(500px)' : 'translateX(-500px)'};
   ${moduleSpace}
 `;
 const Teaser = styled.div`
@@ -18,6 +15,9 @@ const Teaser = styled.div`
   flex-direction: ${(props) =>
     props.side === 'right' ? 'row' : 'row-reverse'};
   align-items: center;
+  opacity: 0;
+  transform: ${(props) =>
+    props.side === 'right' ? 'translateX(90%)' : 'translateX(-90%)'};
 
   @media ${devices.tablet} {
     display: block;
@@ -91,14 +91,17 @@ const CopyrightButton = styled.button`
 const ImageTeaser = ({ data, side }) => {
   const [copyrightActive, setCopyrightActive] = useState(false);
   const { colors } = useContext(ThemeContext);
-  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
   const teaserEl = useRef(null);
 
   useEffect(() => {
     if (inView) {
       const animation = anime({
         targets: teaserEl.current,
-        translateX: [side === 'right' ? 500 : -500, 0],
+        translateX: [side === 'right' ? '90%' : '-90%', '0%'],
         opacity: [0, 1],
         easing: 'easeOutExpo',
         duration: 1400,
@@ -108,8 +111,8 @@ const ImageTeaser = ({ data, side }) => {
   }, [inView, ref, side]);
 
   return (
-    <TeaserContainer ref={teaserEl} side={side}>
-      <Teaser className="container" side={side} id={data.id} ref={ref}>
+    <TeaserContainer ref={ref} side={side}>
+      <Teaser className="container" side={side} id={data.id} ref={teaserEl}>
         <TeaserImage>
           <picture>
             <img src={data.image} alt={data.altText} />
