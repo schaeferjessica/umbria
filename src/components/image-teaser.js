@@ -51,8 +51,18 @@ const TeaserImage = styled.figure`
     width: 100%;
   }
 
+  picture {
+    position: relative;
+    overflow: hidden;
+
+    &:hover img {
+      transform: scale(1.2);
+    }
+  }
+
   img {
     width: 100%;
+    transition: transform 700ms ease-in-out;
   }
 `;
 const Figcaption = styled.figcaption`
@@ -78,7 +88,9 @@ const ImageTeaser = ({ data, side }) => {
   return (
     <Teaser className="container" side={side} id={data.id}>
       <TeaserImage>
-        <img src={data.image} alt={data.altText} />
+        <picture>
+          <img src={data.image} alt={data.altText} />
+        </picture>
         <Figcaption>
           <CopyrightButton
             color={colors}
