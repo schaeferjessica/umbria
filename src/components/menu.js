@@ -30,8 +30,16 @@ export const MenuContainer = styled.div`
 `;
 export const MenuOuter = styled.div`
   position: absolute;
-  min-width: 100%;
+  width: calc(100% - 150px);
   will-change: transform;
+
+  @media ${devices.tablet} {
+    width: calc(100% - 60px);
+  }
+
+  @media ${devices.mobile} {
+    width: calc(100% - 20px);
+  }
 `;
 export const MenuInner = styled.div`
   margin-top: -120px;
@@ -65,8 +73,18 @@ export const MenuList = styled.ul`
     font-weight: 500;
   }
 `;
+export const SocialList = styled.ul`
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
 
-const Menu = ({ data, updateFakeScroll }) => {
+  li:not(:last-child) {
+    margin-right: 20px;
+  }
+`;
+
+const Menu = ({ data, socialLinks, updateFakeScroll }) => {
   const menu = useRef(null);
   const menuOuter = useRef(null);
   const fakeMenu = useRef(null);
@@ -129,6 +147,19 @@ const Menu = ({ data, updateFakeScroll }) => {
                 </li>
               ))}
             </MenuList>
+            <SocialList id="menu-list">
+              {socialLinks.map((link) => (
+                <li key={link.linkText}>
+                  <a
+                    href={link.linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.linkText}
+                  </a>
+                </li>
+              ))}
+            </SocialList>
           </MenuInner>
         </MenuOuter>
       </MenuContainer>
