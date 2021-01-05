@@ -7,6 +7,7 @@ import Menu from '../components/menu';
 import ImageTeaser from '../components/image-teaser';
 import useContenfulImageTeasers from '../hooks/use-imageteasers';
 import useContenfulMenu from '../hooks/use-menu';
+import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
 import styled from 'styled-components';
 
@@ -27,6 +28,7 @@ const IndexPage = () => {
   const imageTeasers = useContenfulImageTeasers();
   const menu = useContenfulMenu();
   const socialLinks = useContenfulSocialLinks();
+  const impressum = useContenfulImpressum();
   const isEven = (n) => n % 2 === 0;
   const setFinalPageHeight = () => {
     const menuOuter = document.querySelector('.menu-inner');
@@ -66,6 +68,7 @@ const IndexPage = () => {
       <Menu
         data={menu}
         socialLinks={socialLinks}
+        impressum={impressum}
         updateFakeScroll={() => setFinalPageHeight()}
       />
       <FakeScroll
