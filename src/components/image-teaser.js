@@ -104,6 +104,9 @@ const ImageTeaser = ({ data, side }) => {
         opacity: [0, 1],
         easing: 'easeOutExpo',
         duration: 1400,
+        complete: () => {
+          teaserEl.current.classList.add('animation-complete');
+        },
       });
       animation.play();
     }

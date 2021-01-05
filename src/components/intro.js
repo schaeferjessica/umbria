@@ -34,8 +34,13 @@ const Intro = ({ title }) => {
   const jumpTo = (e) => {
     e.preventDefault();
 
+    const target = document.querySelector('#openingHours');
+    const rect = target.getBoundingClientRect();
+    const animationCompleted = target.classList.contains('animation-complete');
+    const offset = animationCompleted ? 0 : target.clientHeight;
+
     window.scrollTo({
-      top: document.querySelector('#openingHours').offsetTop - 80,
+      top: rect.top - offset,
       behavior: 'smooth',
     });
   };
