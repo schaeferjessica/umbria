@@ -16,8 +16,7 @@ const Teaser = styled.div`
     props.side === 'right' ? 'row' : 'row-reverse'};
   align-items: center;
   opacity: 0;
-  transform: ${(props) =>
-    props.side === 'right' ? 'translateX(90%)' : 'translateX(-90%)'};
+  transform: translateY(100%);
 
   @media ${devices.tablet} {
     display: block;
@@ -101,7 +100,7 @@ const ImageTeaser = ({ data, side }) => {
     if (inView) {
       const animation = anime({
         targets: teaserEl.current,
-        translateX: [side === 'right' ? '90%' : '-90%', '0%'],
+        translateY: ['100%', '0%'],
         opacity: [0, 1],
         easing: 'easeOutExpo',
         duration: 1400,
