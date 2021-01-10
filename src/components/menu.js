@@ -32,15 +32,26 @@ export const MenuContainer = styled.div`
       position: relative;
     }
 
-    ul {
+    .meal-ul {
       position: relative;
       z-index: 1;
       margin-top: ${(props) =>
-        `-${props.titleHeight * (props.length - props.position) - space}px`};
+        `${
+          props.titleHeight * (props.length - props.position) - space > 0
+            ? '-'
+            : ''
+        }${props.titleHeight * (props.length - props.position)}px`};
 
       @media ${devices.tablet} {
         margin-top: ${(props) =>
-          `-${
+          `
+          ${
+            props.titleHeight * (props.length - props.position) - spaceMobile >
+            0
+              ? '-'
+              : ''
+          }
+          ${
             props.titleHeight * (props.length - props.position) - spaceMobile
           }px`};
       }
@@ -123,6 +134,10 @@ export const MenuList = styled.ul`
     @media ${devices.tablet} {
       margin-bottom: 30px;
     }
+  }
+
+  li:first-child {
+    margin-top: 20px;
   }
 
   li strong {
@@ -295,21 +310,25 @@ const Menu = ({ data, position, length, socialLinks, impressum }) => {
             titleHeight={titleHeight}
           >
             <h2 ref={title}>
-              <button onClick={() => handleClick()}>{data.title}</button>
+              <button onClick={() => handleClick()}>
+                {data && data.title}
+              </button>
             </h2>
-            <MenuList id="menu-list" color={colors}>
+            <MenuList color={colors} className="meal-ul">
               {data.meals.map((meal) => (
                 <li key={meal.title}>
                   <strong>
                     {meal.title} {meal.price}
                   </strong>
-                  {documentToReactComponents(JSON.parse(meal.ingredients.raw))}
+                  {meal &&
+                    meal.ingredients &&
+                    documentToReactComponents(JSON.parse(meal.ingredients.raw))}
                 </li>
               ))}
             </MenuList>
 
             {socialLinks && (
-              <SocialList id="menu-list">
+              <SocialList>
                 {socialLinks.map((link) => (
                   <li key={link.linkText}>
                     <a

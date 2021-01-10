@@ -3,7 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 export const useContenfulMenuSpecial = () => {
   const data = useStaticQuery(graphql`
     query {
-      contentfulMenu(title: { eq: "PIZZA Menu" }) {
+      contentfulMenu(title: { eq: "Speciale" }) {
         title
         meals {
           title
