@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { devices } from '../styles/breakpoints';
+import { moduleSpace } from '../styles/container';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import ThemeContext from '../styles/themecontext';
 
+const space = '30px';
 export const MenuContainer = styled.div`
-  position: fixed;
   width: 100%;
-  bottom: 0;
   padding-left: 150px;
+  ${moduleSpace}
 
   @media ${devices.tablet} {
     padding-left: 60px;
@@ -29,52 +30,39 @@ export const MenuContainer = styled.div`
     }
   }
 `;
-export const MenuOuter = styled.div`
-  position: absolute;
-  width: calc(100% - 150px);
-  will-change: transform;
-
-  @media ${devices.tablet} {
-    width: calc(100% - 60px);
-  }
-
-  @media ${devices.mobile} {
-    width: calc(100% - 20px);
-  }
-`;
 export const MenuInner = styled.div`
-  margin-top: -110px;
   background-color: white;
-  padding-bottom: 40px;
-
-  @media ${devices.tablet} {
-    margin-top: -100px;
-  }
+  padding-bottom: ${space};
 
   h2 {
+    position: fixed;
+    bottom: 0;
     font-family: 'Kufam';
     font-size: 34px;
     text-transform: uppercase;
+    background-color: white;
+    width: 100%;
 
     @media ${devices.tablet} {
       font-size: 24px;
+    }
+
+    &.is-static {
+      position: relative;
     }
 
     button {
       color: ${(props) => props.color.red};
       width: 100%;
       text-align: left;
-      padding-top: 40px;
-      padding-right: 40px;
-      padding-bottom: 40px;
-      padding-left: 40px;
+      padding: ${space};
     }
   }
 `;
 export const MenuList = styled.ul`
   list-style: none;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: ${space};
+  padding-left: ${space};
 
   li:not(:last-child) {
     margin-bottom: 60px;
@@ -89,8 +77,8 @@ export const SocialList = styled.ul`
   display: flex;
   justify-content: flex-end;
   margin-top: 60px;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: ${space};
+  padding-left: ${space};
 
   li:not(:last-child) {
     margin-right: 20px;
@@ -122,7 +110,7 @@ export const Impressum = styled.div`
 
   .impressum-inner {
     position: relative;
-    padding: 40px;
+    padding: ${space};
     font-size: 16px;
 
     @media ${devices.mobile} {
@@ -178,16 +166,14 @@ export const ImpressumCloseButton = styled.button`
   }
 `;
 
-const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
+const Menu = ({ data, socialLinks, impressum }) => {
   const menu = useRef(null);
-  const menuOuter = useRef(null);
+  const title = useRef(null);
   const fakeMenu = useRef(null);
   const [impressumActive, setImpressumActive] = useState(false);
   const { colors } = useContext(ThemeContext);
 
   const handleClick = () => {
-    updateFakeScroll(); // update pageHeight (just to be sure)
-
     // scroll to Element
     window.scrollTo({
       top:
@@ -196,33 +182,26 @@ const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
       behavior: 'smooth',
     });
   };
-  const transformMenu = () => {
-    const mql = window.matchMedia('(max-width: 1024px)');
-    const moduleSpace = mql.matches ? 60 : 150;
-    const marginMinus = mql.matches ? 100 : 110;
-    const scrollLimit = fakeMenu.current.offsetTop;
-    const target = menuOuter.current;
-    const pageOffset =
-      document.documentElement.scrollTop +
-      window.innerHeight -
-      marginMinus -
-      moduleSpace;
 
-    if (pageOffset >= scrollLimit) {
-      target.style.transform = `translate3d(0px, -${
-        pageOffset - scrollLimit
-      }px, 0px)`;
+  const affixScroll = () => {
+    const pageOffset = document.documentElement.scrollTop;
+    const menuOffset =
+      menu.current.offsetTop - window.innerHeight + title.current.clientHeight;
+
+    if (pageOffset >= menuOffset) {
+      title.current.classList.add('is-static');
     } else {
-      target.style.transform = 'translate3d(0px, 0px, 0px)';
+      title.current.classList.remove('is-static');
     }
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', transformMenu);
+    affixScroll();
+    window.addEventListener('scroll', affixScroll);
 
     // this will clear Timeout when component unmount like in willComponentUnmount
     return () => {
-      window.removeEventListener('scroll', transformMenu());
+      window.removeEventListener('scroll', affixScroll);
     };
   }, []);
 
@@ -230,9 +209,9 @@ const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
     <>
       <div id="fake-menu" ref={fakeMenu}></div>
       <MenuContainer ref={menu}>
-        <MenuOuter className="menu-outer" ref={menuOuter}>
+        <div className="menu-outer">
           <MenuInner className="menu-inner" color={colors}>
-            <h2>
+            <h2 ref={title}>
               <button onClick={() => handleClick()}>{data.title}</button>
             </h2>
             <MenuList id="menu-list">
@@ -267,7 +246,7 @@ const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
               </li>
             </SocialList>
           </MenuInner>
-        </MenuOuter>
+        </div>
       </MenuContainer>
       <Impressum className={impressumActive ? 'is-active' : ''}>
         <div className="impressum-outer">
