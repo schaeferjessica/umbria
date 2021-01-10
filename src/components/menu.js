@@ -1,21 +1,61 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { devices } from '../styles/breakpoints';
+import { moduleSpace } from '../styles/container';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import ThemeContext from '../styles/themecontext';
 
+const space = 25;
+const spaceMobile = 15;
+
 export const MenuContainer = styled.div`
-  position: fixed;
   width: 100%;
-  bottom: 0;
-  padding-left: 150px;
+  padding-left: ${(props) => `${125 + space * props.position}px`};
+  position: relative;
+  z-index: ${(props) => props.position};
+  ${moduleSpace}
+
+  & + .menu-container {
+    margin-top: 20px;
+  }
 
   @media ${devices.tablet} {
-    padding-left: 60px;
+    padding-left: ${(props) => `${45 + spaceMobile * props.position}px`};
   }
 
   @media ${devices.mobile} {
-    padding-left: 20px;
+    padding-left: ${(props) => `${5 + spaceMobile * props.position}px`};
+  }
+
+  &.is-static {
+    h2 {
+      position: relative;
+    }
+
+    .meal-ul {
+      position: relative;
+      z-index: 1;
+      margin-top: ${(props) =>
+        `${
+          props.titleHeight * (props.length - props.position) - space > 0
+            ? '-'
+            : ''
+        }${props.titleHeight * (props.length - props.position)}px`};
+
+      @media ${devices.tablet} {
+        margin-top: ${(props) =>
+          `
+          ${
+            props.titleHeight * (props.length - props.position) - spaceMobile >
+            0
+              ? '-'
+              : ''
+          }
+          ${
+            props.titleHeight * (props.length - props.position) - spaceMobile
+          }px`};
+      }
+    }
   }
 
   h1 {
@@ -29,55 +69,75 @@ export const MenuContainer = styled.div`
     }
   }
 `;
-export const MenuOuter = styled.div`
-  position: absolute;
-  width: calc(100% - 150px);
-  will-change: transform;
-
-  @media ${devices.tablet} {
-    width: calc(100% - 60px);
-  }
-
-  @media ${devices.mobile} {
-    width: calc(100% - 20px);
-  }
-`;
 export const MenuInner = styled.div`
-  margin-top: -110px;
   background-color: white;
-  padding-bottom: 40px;
+  border-bottom: 1px solid ${(props) => props.color.red};
+  border-left: 1px solid ${(props) => props.color.red};
+  padding-bottom: ${space}px;
 
   @media ${devices.tablet} {
-    margin-top: -100px;
+    padding-bottom: ${spaceMobile}px;
   }
 
   h2 {
+    position: fixed;
+    bottom: 0;
     font-family: 'Kufam';
-    font-size: 34px;
+    font-size: 25px;
     text-transform: uppercase;
+    width: 100%;
 
     @media ${devices.tablet} {
-      font-size: 24px;
+      font-size: 20px;
     }
 
     button {
+      background-color: white;
+      position: relative;
+      left: -1px;
       color: ${(props) => props.color.red};
+      border-top: 1px solid ${(props) => props.color.red};
+      border-left: 1px solid ${(props) => props.color.red};
       width: 100%;
       text-align: left;
-      padding-top: 40px;
-      padding-right: 40px;
-      padding-bottom: 40px;
-      padding-left: 40px;
+      padding: ${space}px;
+      padding-bottom: ${(props) =>
+        `${
+          props.titleHeight * (props.length - props.position) + space - 10
+        }px`};
+
+      @media ${devices.tablet} {
+        padding: ${spaceMobile}px;
+        padding-bottom: ${(props) =>
+          `${
+            props.titleHeight * (props.length - props.position) +
+            spaceMobile -
+            5
+          }px`};
+      }
     }
   }
 `;
 export const MenuList = styled.ul`
   list-style: none;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: ${space}px;
+  padding-left: ${space}px;
+
+  @media ${devices.tablet} {
+    padding-right: ${spaceMobile}px;
+    padding-left: ${spaceMobile}px;
+  }
 
   li:not(:last-child) {
-    margin-bottom: 60px;
+    margin-bottom: 50px;
+
+    @media ${devices.tablet} {
+      margin-bottom: 30px;
+    }
+  }
+
+  li:first-child {
+    margin-top: 20px;
   }
 
   li strong {
@@ -89,8 +149,13 @@ export const SocialList = styled.ul`
   display: flex;
   justify-content: flex-end;
   margin-top: 60px;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: ${space}px;
+  padding-left: ${space}px;
+
+  @media ${devices.tablet} {
+    padding-right: ${spaceMobile}px;
+    padding-left: ${spaceMobile}px;
+  }
 
   li:not(:last-child) {
     margin-right: 20px;
@@ -122,8 +187,12 @@ export const Impressum = styled.div`
 
   .impressum-inner {
     position: relative;
-    padding: 40px;
+    padding: ${space}px;
     font-size: 16px;
+
+    @media ${devices.tablet} {
+      padding: ${spaceMobile}px;
+    }
 
     @media ${devices.mobile} {
       font-size: 14px;
@@ -148,120 +217,159 @@ export const ImpressumButton = styled.button`
   text-decoration: underline;
   color: ${(props) => props.color.red};
 `;
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+`;
 export const ImpressumCloseButton = styled.button`
   position: absolute;
-  top: 40px;
-  right: 40px;
-  background-color: ${(props) => props.color.red};
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
+  top: 20px;
+  right: 20px;
+  color: ${(props) => props.color.red};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 80px;
+
+  @media ${devices.tablet} {
+    font-size: 70px;
+    padding: 15px;
+    top: 0;
+    right: 0;
+  }
+
+  &:hover {
+    animation: ${rotate} 1s linear infinite;
+  }
+
+  span[aria-hidden='true'] {
+    height: 21px;
+    display: block;
+  }
 `;
 
-const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
+const Menu = ({ data, position, length, socialLinks, impressum }) => {
   const menu = useRef(null);
-  const menuOuter = useRef(null);
-  const fakeMenu = useRef(null);
+  const title = useRef(null);
   const [impressumActive, setImpressumActive] = useState(false);
+  const [titleHeight, setTitleHeight] = useState(0);
   const { colors } = useContext(ThemeContext);
 
   const handleClick = () => {
-    updateFakeScroll(); // update pageHeight (just to be sure)
-
     // scroll to Element
     window.scrollTo({
-      top:
-        menu.current.previousSibling.offsetTop +
-        menu.current.previousSibling.clientHeight / 3,
+      top: menu.current.offsetTop - 20,
       behavior: 'smooth',
     });
   };
-  const transformMenu = () => {
-    const mql = window.matchMedia('(max-width: 1024px)');
-    const moduleSpace = mql.matches ? 60 : 150;
-    const marginMinus = mql.matches ? 100 : 110;
-    const scrollLimit = fakeMenu.current.offsetTop;
-    const target = menuOuter.current;
-    const pageOffset =
-      document.documentElement.scrollTop +
-      window.innerHeight -
-      marginMinus -
-      moduleSpace;
 
-    if (pageOffset >= scrollLimit) {
-      target.style.transform = `translate3d(0px, -${
-        pageOffset - scrollLimit
-      }px, 0px)`;
+  const affixScroll = () => {
+    const elHeight = title.current.firstElementChild.clientHeight;
+    const pageOffset = document.documentElement.scrollTop;
+    const menuOffset = menu.current.offsetTop - window.innerHeight + elHeight;
+
+    if (pageOffset >= menuOffset) {
+      menu.current.classList.add('is-static');
     } else {
-      target.style.transform = 'translate3d(0px, 0px, 0px)';
+      menu.current.classList.remove('is-static');
     }
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', transformMenu);
+    setTitleHeight(title.current.clientHeight);
+    affixScroll();
+    window.addEventListener('scroll', affixScroll);
 
     // this will clear Timeout when component unmount like in willComponentUnmount
     return () => {
-      window.removeEventListener('scroll', transformMenu());
+      window.removeEventListener('scroll', affixScroll);
     };
   }, []);
 
   return (
     <>
-      <div id="fake-menu" ref={fakeMenu}></div>
-      <MenuContainer ref={menu}>
-        <MenuOuter className="menu-outer" ref={menuOuter}>
-          <MenuInner className="menu-inner" color={colors}>
-            <h2>
-              <button onClick={() => handleClick()}>{data.title}</button>
+      <MenuContainer
+        className="menu-container"
+        ref={menu}
+        position={position}
+        length={length}
+        titleHeight={titleHeight}
+      >
+        <div className="menu-outer">
+          <MenuInner
+            className="menu-inner"
+            color={colors}
+            position={position}
+            length={length}
+            titleHeight={titleHeight}
+          >
+            <h2 ref={title}>
+              <button onClick={() => handleClick()}>
+                {data && data.title}
+              </button>
             </h2>
-            <MenuList id="menu-list">
+            <MenuList color={colors} className="meal-ul">
               {data.meals.map((meal) => (
                 <li key={meal.title}>
                   <strong>
                     {meal.title} {meal.price}
                   </strong>
-                  {documentToReactComponents(JSON.parse(meal.ingredients.raw))}
+                  {meal &&
+                    meal.ingredients &&
+                    documentToReactComponents(JSON.parse(meal.ingredients.raw))}
                 </li>
               ))}
             </MenuList>
-            <SocialList id="menu-list">
-              {socialLinks.map((link) => (
-                <li key={link.linkText}>
-                  <a
-                    href={link.linkUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+
+            {socialLinks && (
+              <SocialList>
+                {socialLinks.map((link) => (
+                  <li key={link.linkText}>
+                    <a
+                      href={link.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.linkText}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <ImpressumButton
+                    color={colors}
+                    onClick={() => setImpressumActive(!impressumActive)}
                   >
-                    {link.linkText}
-                  </a>
+                    {impressum.button}
+                  </ImpressumButton>
                 </li>
-              ))}
-              <li>
-                <ImpressumButton
-                  color={colors}
-                  onClick={() => setImpressumActive(!impressumActive)}
-                >
-                  {impressum.button}
-                </ImpressumButton>
-              </li>
-            </SocialList>
+              </SocialList>
+            )}
           </MenuInner>
-        </MenuOuter>
-      </MenuContainer>
-      <Impressum className={impressumActive ? 'is-active' : ''}>
-        <div className="impressum-outer">
-          <div className="impressum-inner">
-            <ImpressumCloseButton
-              onClick={() => setImpressumActive(false)}
-              color={colors}
-            >
-              <span className="sr-only">Impressum schließen</span>
-            </ImpressumCloseButton>
-            {documentToReactComponents(JSON.parse(impressum.text.raw))}
-          </div>
         </div>
-      </Impressum>
+      </MenuContainer>
+
+      {impressum && (
+        <Impressum className={impressumActive ? 'is-active' : ''}>
+          <div className="impressum-outer">
+            <div className="impressum-inner">
+              <ImpressumCloseButton
+                onClick={() => setImpressumActive(false)}
+                color={colors}
+              >
+                <span aria-hidden="true">*</span>
+                <span className="sr-only">Impressum schließen</span>
+              </ImpressumCloseButton>
+              {documentToReactComponents(JSON.parse(impressum.text.raw))}
+            </div>
+          </div>
+        </Impressum>
+      )}
     </>
   );
 };

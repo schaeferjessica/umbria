@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Layout from '../components/layout/layout';
 import SEO from '../components/seo';
 import Header from '../components/header';
@@ -6,7 +6,9 @@ import Intro from '../components/intro';
 import Menu from '../components/menu';
 import ImageTeaser from '../components/image-teaser';
 import useContenfulImageTeasers from '../hooks/use-imageteasers';
-import useContenfulMenu from '../hooks/use-menu';
+import useContenfulMenuPizza from '../hooks/use-menu-pizza';
+import useContenfulMenuStarter from '../hooks/use-menu-starter';
+import useContenfulMenuSpecial from '../hooks/use-menu-special';
 import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
 import styled from 'styled-components';
@@ -24,32 +26,13 @@ export const FakeScroll = styled.div`
 `;
 
 const IndexPage = () => {
-  const [pageHeight, setPageHeight] = useState(0);
   const imageTeasers = useContenfulImageTeasers();
-  const menu = useContenfulMenu();
+  const menuPizza = useContenfulMenuPizza();
+  const menuStarter = useContenfulMenuStarter();
+  const menuSpecial = useContenfulMenuSpecial();
   const socialLinks = useContenfulSocialLinks();
   const impressum = useContenfulImpressum();
   const isEven = (n) => n % 2 === 0;
-  const setFinalPageHeight = () => {
-    const menuOuter = document.querySelector('.menu-inner');
-    const menuHeight = menuOuter ? menuOuter.clientHeight : 0;
-    const mql = window.matchMedia('(max-width: 1024px)');
-    const moduleSpace = mql.matches ? 60 : 150;
-    setPageHeight(document.body.clientHeight + menuHeight + moduleSpace);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', setFinalPageHeight);
-
-    // make sure height gets set on pageLoad
-    const timer = setTimeout(() => setFinalPageHeight(), 300);
-
-    // this will clear Timeout when component unmount like in willComponentUnmount
-    return () => {
-      window.removeEventListener('scroll', setFinalPageHeight);
-      clearTimeout(timer);
-    };
-  }, []);
 
   return (
     <Layout>
@@ -65,16 +48,15 @@ const IndexPage = () => {
           />
         ))}
       </ImageTeaserWrapper>
+      <Menu data={menuPizza} position={1} length={3} />
+      <Menu data={menuStarter} position={2} length={3} />
       <Menu
-        data={menu}
+        data={menuSpecial}
         socialLinks={socialLinks}
         impressum={impressum}
-        updateFakeScroll={() => setFinalPageHeight()}
+        position={3}
+        length={3}
       />
-      <FakeScroll
-        id="fake-scroll"
-        style={{ height: `${pageHeight}px` }}
-      ></FakeScroll>
     </Layout>
   );
 };
