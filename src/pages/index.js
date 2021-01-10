@@ -48,8 +48,8 @@ const IndexPage = () => {
           />
         ))}
       </ImageTeaserWrapper>
-      <Menu data={menuPizza} position={1} length={3} />
-      <Menu data={menuStarter} position={2} length={3} />
+      <Menu data={menuStarter} position={1} length={3} />
+      <Menu data={menuPizza} position={2} length={3} />
       <Menu
         data={menuSpecial}
         socialLinks={socialLinks}
