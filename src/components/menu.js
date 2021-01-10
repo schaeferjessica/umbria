@@ -83,12 +83,12 @@ export const MenuInner = styled.div`
     position: fixed;
     bottom: 0;
     font-family: 'Kufam';
-    font-size: 25px;
+    font-size: 28px;
     text-transform: uppercase;
     width: 100%;
 
     @media ${devices.tablet} {
-      font-size: 20px;
+      font-size: 24px;
     }
 
     button {
@@ -163,7 +163,10 @@ export const SocialList = styled.ul`
 `;
 export const Impressum = styled.div`
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,6 +261,7 @@ const Menu = ({ data, position, length, socialLinks, impressum }) => {
   const menu = useRef(null);
   const title = useRef(null);
   const [impressumActive, setImpressumActive] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [titleHeight, setTitleHeight] = useState(0);
   const { colors } = useContext(ThemeContext);
 
@@ -282,6 +286,7 @@ const Menu = ({ data, position, length, socialLinks, impressum }) => {
   };
 
   useEffect(() => {
+    setIsReady(true);
     setTitleHeight(title.current.clientHeight);
     affixScroll();
     window.addEventListener('scroll', affixScroll);
@@ -300,6 +305,7 @@ const Menu = ({ data, position, length, socialLinks, impressum }) => {
         position={position}
         length={length}
         titleHeight={titleHeight}
+        style={{ opacity: isReady ? '1' : '0' }}
       >
         <div className="menu-outer">
           <MenuInner
