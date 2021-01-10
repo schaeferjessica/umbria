@@ -24,6 +24,7 @@ export default createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     color: ${(props) => props.color.red};
     background-color: ${(props) => props.color.redLight};
+    background: linear-gradient(180deg, #FDF9F7 0%, #FFEDED 97.74%), #FDF9F7;
 
     @media ${devices.mobile} {
       font-size: 16px;
@@ -45,6 +46,7 @@ export default createGlobalStyle`
     padding-top: 20px;
     padding-bottom: 16px;
     border: 1px solid currentColor;
+    background-color: white;
     text-decoration: none;
     display: inline-block;
     text-align: center;
