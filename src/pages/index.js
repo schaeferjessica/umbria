@@ -6,7 +6,9 @@ import Intro from '../components/intro';
 import Menu from '../components/menu';
 import ImageTeaser from '../components/image-teaser';
 import useContenfulImageTeasers from '../hooks/use-imageteasers';
-import useContenfulMenu from '../hooks/use-menu';
+import useContenfulMenuPizza from '../hooks/use-menu-pizza';
+import useContenfulMenuStarter from '../hooks/use-menu-starter';
+import useContenfulMenuSpecial from '../hooks/use-menu-special';
 import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
 import styled from 'styled-components';
@@ -25,7 +27,9 @@ export const FakeScroll = styled.div`
 
 const IndexPage = () => {
   const imageTeasers = useContenfulImageTeasers();
-  const menu = useContenfulMenu();
+  const menuPizza = useContenfulMenuPizza();
+  const menuStarter = useContenfulMenuStarter();
+  const menuSpecial = useContenfulMenuSpecial();
   const socialLinks = useContenfulSocialLinks();
   const impressum = useContenfulImpressum();
   const isEven = (n) => n % 2 === 0;
@@ -44,7 +48,15 @@ const IndexPage = () => {
           />
         ))}
       </ImageTeaserWrapper>
-      <Menu data={menu} socialLinks={socialLinks} impressum={impressum} />
+      <Menu data={menuPizza} position={1} length={3} />
+      <Menu data={menuStarter} position={2} length={3} />
+      <Menu
+        data={menuSpecial}
+        socialLinks={socialLinks}
+        impressum={impressum}
+        position={3}
+        length={3}
+      />
     </Layout>
   );
 };

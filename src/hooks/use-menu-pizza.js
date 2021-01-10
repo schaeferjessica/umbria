@@ -1,9 +1,9 @@
 import { graphql, useStaticQuery } from 'gatsby';
 
-export const useContenfulMenu = () => {
+export const useContenfulMenuPizza = () => {
   const data = useStaticQuery(graphql`
     query {
-      contentfulMenu {
+      contentfulMenu(title: { eq: "PIZZA Menu" }) {
         title
         meals {
           title
@@ -19,4 +19,4 @@ export const useContenfulMenu = () => {
   return data.contentfulMenu;
 };
 
-export default useContenfulMenu;
+export default useContenfulMenuPizza;
