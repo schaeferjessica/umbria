@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { devices } from '../styles/breakpoints';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import ThemeContext from '../styles/themecontext';
@@ -148,14 +148,34 @@ export const ImpressumButton = styled.button`
   text-decoration: underline;
   color: ${(props) => props.color.red};
 `;
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+`;
 export const ImpressumCloseButton = styled.button`
   position: absolute;
-  top: 40px;
+  top: 20px;
   right: 40px;
-  background-color: ${(props) => props.color.red};
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
+  color: ${(props) => props.color.red};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 80px;
+
+  &:hover {
+    animation: ${rotate} 1s linear infinite;
+  }
+
+  span[aria-hidden='true'] {
+    height: 21px;
+    display: block;
+  }
 `;
 
 const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
@@ -256,6 +276,7 @@ const Menu = ({ data, socialLinks, impressum, updateFakeScroll }) => {
               onClick={() => setImpressumActive(false)}
               color={colors}
             >
+              <span aria-hidden="true">*</span>
               <span className="sr-only">Impressum schließen</span>
             </ImpressumCloseButton>
             {documentToReactComponents(JSON.parse(impressum.text.raw))}
