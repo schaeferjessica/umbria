@@ -1,138 +1,59 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { devices } from '../styles/breakpoints';
-import { moduleSpace } from '../styles/container';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import ThemeContext from '../styles/themecontext';
 
-const space = 25;
-const spaceMobile = 15;
-
-export const MenuContainer = styled.div`
+export const MenuButton = styled.button`
+  font-family: 'Kufam';
+  font-size: 32px;
+  z-index: 3;
+  margin-top: 20px;
   width: 100%;
-  padding-left: ${(props) => `${125 + space * props.position}px`};
-  position: relative;
-  z-index: ${(props) => props.position};
-  ${moduleSpace}
-
-  & + .menu-container {
-    margin-top: 20px;
-  }
+  max-width: 280px;
+  color: ${(props) => props.color.red};
+  text-align: left;
+  text-transform: uppercase;
+  padding: 22px 20px 14px 20px;
 
   @media ${devices.tablet} {
-    padding-left: ${(props) => `${45 + spaceMobile * props.position}px`};
+    max-width: 125px;
+    padding: 20px 15px 15px 15px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+`;
+export const MenuOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-left: 300px;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: ${(props) => props.color.redLight};
+
+  @media ${devices.tablet} {
+    padding-left: 140px;
   }
 
   @media ${devices.mobile} {
-    padding-left: ${(props) => `${5 + spaceMobile * props.position}px`};
-  }
-
-  &.is-static {
-    h2 {
-      position: relative;
-    }
-
-    .meal-ul {
-      position: relative;
-      z-index: 1;
-      margin-top: ${(props) =>
-        `${
-          props.titleHeight * (props.length - props.position) - space > 0
-            ? '-'
-            : ''
-        }${props.titleHeight * (props.length - props.position)}px`};
-
-      @media ${devices.tablet} {
-        margin-top: ${(props) =>
-          `
-          ${
-            props.titleHeight * (props.length - props.position) - spaceMobile >
-            0
-              ? '-'
-              : ''
-          }
-          ${
-            props.titleHeight * (props.length - props.position) - spaceMobile
-          }px`};
-      }
-    }
-  }
-
-  h1 {
-    margin-bottom: 60px;
-    font-size: 75px;
-    font-family: 'Kufam';
-    text-transform: uppercase;
-
-    @media ${devices.mobile} {
-      font-size: 35px;
-    }
-  }
-`;
-export const MenuInner = styled.div`
-  background-color: white;
-  border-bottom: 1px solid ${(props) => props.color.red};
-  border-left: 1px solid ${(props) => props.color.red};
-  padding-bottom: ${space}px;
-
-  @media ${devices.tablet} {
-    padding-bottom: ${spaceMobile}px;
-  }
-
-  h2 {
-    position: fixed;
-    bottom: 0;
-    font-family: 'Kufam';
-    font-size: 28px;
-    text-transform: uppercase;
-    width: 100%;
-
-    @media ${devices.tablet} {
-      font-size: 24px;
-    }
-
-    button {
-      background-color: white;
-      position: relative;
-      left: -1px;
-      color: ${(props) => props.color.red};
-      border-top: 1px solid ${(props) => props.color.red};
-      border-left: 1px solid ${(props) => props.color.red};
-      width: 100%;
-      text-align: left;
-      padding: ${space}px;
-      padding-bottom: ${(props) =>
-        `${
-          props.titleHeight * (props.length - props.position) + space - 10
-        }px`};
-
-      @media ${devices.tablet} {
-        padding: ${spaceMobile}px;
-        padding-bottom: ${(props) =>
-          `${
-            props.titleHeight * (props.length - props.position) +
-            spaceMobile -
-            5
-          }px`};
-      }
-    }
+    padding-left: 140px;
   }
 `;
 export const MenuList = styled.ul`
   list-style: none;
-  padding-right: ${space}px;
-  padding-left: ${space}px;
-
-  @media ${devices.tablet} {
-    padding-right: ${spaceMobile}px;
-    padding-left: ${spaceMobile}px;
-  }
+  padding-bottom: 50px;
+  margin-top: 30px;
+  margin-right: 10px;
 
   li:not(:last-child) {
     margin-bottom: 50px;
 
     @media ${devices.tablet} {
       margin-bottom: 30px;
+      margin-top: 50px;
     }
   }
 
@@ -144,82 +65,6 @@ export const MenuList = styled.ul`
     font-weight: 500;
   }
 `;
-export const SocialList = styled.ul`
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 60px;
-  padding-right: ${space}px;
-  padding-left: ${space}px;
-
-  @media ${devices.tablet} {
-    padding-right: ${spaceMobile}px;
-    padding-left: ${spaceMobile}px;
-  }
-
-  li:not(:last-child) {
-    margin-right: 20px;
-  }
-`;
-export const Impressum = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 500ms ease-in-out;
-  z-index: 999;
-  pointer-events: none;
-
-  &.is-active {
-    opacity: 1;
-    pointer-events: inherit;
-  }
-
-  .impressum-outer {
-    background-color: white;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
-  }
-
-  .impressum-inner {
-    position: relative;
-    padding: ${space}px;
-    font-size: 16px;
-
-    @media ${devices.tablet} {
-      padding: ${spaceMobile}px;
-    }
-
-    @media ${devices.mobile} {
-      font-size: 14px;
-    }
-  }
-
-  h2 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 40px;
-
-    @media ${devices.mobile} {
-      font-size: 16px;
-    }
-  }
-
-  p {
-    margin-top: 20px;
-  }
-`;
-export const ImpressumButton = styled.button`
-  text-decoration: underline;
-  color: ${(props) => props.color.red};
-`;
 const rotate = keyframes`
   from {
     transform: rotate(0deg);
@@ -229,7 +74,7 @@ const rotate = keyframes`
     transform: rotate(1turn);
   }
 `;
-export const ImpressumCloseButton = styled.button`
+export const MenuCloseButton = styled.button`
   position: absolute;
   top: 20px;
   right: 20px;
@@ -257,124 +102,99 @@ export const ImpressumCloseButton = styled.button`
   }
 `;
 
-const Menu = ({ data, position, length, socialLinks, impressum }) => {
-  const menu = useRef(null);
-  const title = useRef(null);
-  const [impressumActive, setImpressumActive] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const [titleHeight, setTitleHeight] = useState(0);
+const Menu = ({ data, position, menuClick, activeMenu }) => {
   const { colors } = useContext(ThemeContext);
+  const title = useRef(null);
+  const [titleHeight, setTitleHeight] = useState(0);
 
-  const handleClick = () => {
-    // scroll to Element
-    window.scrollTo({
-      top: menu.current.offsetTop - 20,
-      behavior: 'smooth',
-    });
-  };
+  const handleOpenClick = () => {
+    const alreadyActive = position === activeMenu ? false : position;
+    menuClick(alreadyActive);
 
-  const affixScroll = () => {
-    const elHeight = title.current.firstElementChild.clientHeight;
-    const pageOffset = document.documentElement.scrollTop;
-    const menuOffset = menu.current.offsetTop - window.innerHeight + elHeight;
-
-    if (pageOffset >= menuOffset) {
-      menu.current.classList.add('is-static');
+    if (position === activeMenu) {
+      document.querySelector('body').classList.remove('prevent-scroll');
     } else {
-      menu.current.classList.remove('is-static');
+      document.querySelector('body').classList.add('prevent-scroll');
     }
   };
 
-  useEffect(() => {
-    setIsReady(true);
-    setTitleHeight(title.current.clientHeight);
-    affixScroll();
-    window.addEventListener('scroll', affixScroll);
+  const handleCloseClick = () => {
+    menuClick(false);
+    document.querySelector('body').classList.remove('prevent-scroll');
+  };
 
-    // this will clear Timeout when component unmount like in willComponentUnmount
-    return () => {
-      window.removeEventListener('scroll', affixScroll);
+  useEffect(() => {
+    const body = document.querySelector('body');
+    const matches = (el, selector) =>
+      (
+        el.matches ||
+        el.matchesSelector ||
+        el.msMatchesSelector ||
+        el.webkitMatchesSelector
+      ).call(el, selector);
+    const closest = (element, selector, checkSelf = true) => {
+      let parent = checkSelf ? element : element.parentNode;
+
+      while (parent && parent !== document) {
+        if (matches(parent, selector)) return parent;
+        parent = parent.parentNode;
+      }
+      return false;
     };
-  }, []);
+    const closeActiveMenu = (event) => {
+      const insideMenu = closest(event.target, '.meal-ul');
+      const insideButton = closest(event.target, '.menu-button');
+
+      if (insideButton) return;
+
+      if (position === activeMenu && !insideMenu) {
+        menuClick(false);
+        document.querySelector('body').classList.remove('prevent-scroll');
+      }
+    };
+
+    setTitleHeight(title.current.clientHeight);
+    body.addEventListener('click', closeActiveMenu);
+
+    return () => {
+      body.removeEventListener('click', closeActiveMenu);
+    };
+  }, [position, activeMenu, menuClick]);
 
   return (
     <>
-      <MenuContainer
-        className="menu-container"
-        ref={menu}
+      <MenuButton
+        color={colors}
         position={position}
-        length={length}
         titleHeight={titleHeight}
-        style={{ opacity: isReady ? '1' : '0' }}
+        className={`button menu-button ${
+          activeMenu === position ? 'is-active' : ''
+        }`}
+        ref={title}
+        onClick={() => handleOpenClick()}
       >
-        <div className="menu-outer">
-          <MenuInner
-            className="menu-inner"
-            color={colors}
-            position={position}
-            length={length}
-            titleHeight={titleHeight}
-          >
-            <h2 ref={title}>
-              <button onClick={() => handleClick()}>
-                {data && data.title}
-              </button>
-            </h2>
-            <MenuList color={colors} className="meal-ul">
-              {data.meals.map((meal) => (
-                <li key={meal.title}>
-                  <strong>
-                    {meal.title} {meal.price}
-                  </strong>
-                  {meal &&
-                    meal.ingredients &&
-                    documentToReactComponents(JSON.parse(meal.ingredients.raw))}
-                </li>
-              ))}
-            </MenuList>
-
-            {socialLinks && (
-              <SocialList>
-                {socialLinks.map((link) => (
-                  <li key={link.linkText}>
-                    <a
-                      href={link.linkUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.linkText}
-                    </a>
-                  </li>
-                ))}
-                <li>
-                  <ImpressumButton
-                    color={colors}
-                    onClick={() => setImpressumActive(!impressumActive)}
-                  >
-                    {impressum.button}
-                  </ImpressumButton>
-                </li>
-              </SocialList>
-            )}
-          </MenuInner>
-        </div>
-      </MenuContainer>
-
-      {impressum && (
-        <Impressum className={impressumActive ? 'is-active' : ''}>
-          <div className="impressum-outer">
-            <div className="impressum-inner">
-              <ImpressumCloseButton
-                onClick={() => setImpressumActive(false)}
-                color={colors}
-              >
-                <span aria-hidden="true">*</span>
-                <span className="sr-only">Impressum schließen</span>
-              </ImpressumCloseButton>
-              {documentToReactComponents(JSON.parse(impressum.text.raw))}
-            </div>
-          </div>
-        </Impressum>
+        {data.title}
+      </MenuButton>
+      {activeMenu === position ? (
+        <MenuOverlay color={colors} className="menu-overlay">
+          <MenuCloseButton onClick={() => handleCloseClick()} color={colors}>
+            <span aria-hidden="true">*</span>
+            <span className="sr-only">Menu schließen</span>
+          </MenuCloseButton>
+          <MenuList color={colors} className="meal-ul">
+            {data.meals.map((meal) => (
+              <li key={meal.title}>
+                <strong>
+                  {meal.title} {meal.price}
+                </strong>
+                {meal.ingredients &&
+                  documentToReactComponents(JSON.parse(meal.ingredients.raw))}
+              </li>
+            ))}
+          </MenuList>
+        </MenuOverlay>
+      ) : (
+        ''
       )}
     </>
   );
