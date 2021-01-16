@@ -46,7 +46,6 @@ export default createGlobalStyle`
     padding-top: 20px;
     padding-bottom: 16px;
     border: 1px solid currentColor;
-    background-color: white;
     text-decoration: none;
     display: inline-block;
     text-align: center;
@@ -54,6 +53,20 @@ export default createGlobalStyle`
 
     @media ${devices.mobile} {
       font-size: 14px;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 15px;
+      padding-bottom: 10px;
+    }
+
+    &:hover,
+    &.is-active {
+      background-color: white;
     }
   }
+
+  .prevent-scroll {
+    position: relative;
+    overflow: hidden;
+  } 
 `;

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/layout/layout';
 import SEO from '../components/seo';
 import Header from '../components/header';
+import Footer from '../components/footer';
 import Intro from '../components/intro';
 import Menu from '../components/menu';
 import ImageTeaser from '../components/image-teaser';
@@ -17,15 +18,16 @@ export const ImageTeaserWrapper = styled.div`
   position: relative;
   overflow: hidden;
 `;
-export const FakeScroll = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  z-index: -9999;
-  pointer-events: none;
+export const MenuWrapper = styled.div`
+  position: fixed;
+  top: 21.8%;
+  left: -2px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const IndexPage = () => {
+  const [activeMenu, setActiveMenu] = useState(false);
   const imageTeasers = useContenfulImageTeasers();
   const menuPizza = useContenfulMenuPizza();
   const menuStarter = useContenfulMenuStarter();
@@ -33,6 +35,9 @@ const IndexPage = () => {
   const socialLinks = useContenfulSocialLinks();
   const impressum = useContenfulImpressum();
   const isEven = (n) => n % 2 === 0;
+  const handleMenuClick = (position) => {
+    setActiveMenu(position);
+  };
 
   return (
     <Layout>
@@ -48,15 +53,27 @@ const IndexPage = () => {
           />
         ))}
       </ImageTeaserWrapper>
-      <Menu data={menuStarter} position={1} length={3} />
-      <Menu data={menuPizza} position={2} length={3} />
-      <Menu
-        data={menuSpecial}
-        socialLinks={socialLinks}
-        impressum={impressum}
-        position={3}
-        length={3}
-      />
+      <MenuWrapper>
+        <Menu
+          data={menuStarter}
+          position={1}
+          menuClick={handleMenuClick}
+          activeMenu={activeMenu}
+        />
+        <Menu
+          data={menuPizza}
+          position={2}
+          menuClick={handleMenuClick}
+          activeMenu={activeMenu}
+        />
+        <Menu
+          data={menuSpecial}
+          position={3}
+          menuClick={handleMenuClick}
+          activeMenu={activeMenu}
+        />
+      </MenuWrapper>
+      <Footer socialLinks={socialLinks} impressum={impressum} />
     </Layout>
   );
 };

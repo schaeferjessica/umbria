@@ -5,16 +5,16 @@ export default createGlobalStyle`
   .container {
     max-width: 2000px;
     margin: 0 auto;
-    padding-left: 150px;
+    padding-left: 300px;
     padding-right: 150px;
-    
+
     @media ${devices.tablet} {
-      padding-left: 60px;
+      padding-left: 140px;
       padding-right: 60px;
     }
 
     @media ${devices.mobile} {
-      padding-left: 20px;
+      padding-left: 140px;
       padding-right: 20px;
     }
   }
