@@ -14,7 +14,7 @@ export default createGlobalStyle`
     }
 
     @media ${devices.mobile} {
-      padding-left: 140px;
+      padding-left: 70px;
       padding-right: 20px;
     }
   }

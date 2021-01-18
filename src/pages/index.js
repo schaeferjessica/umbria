@@ -24,6 +24,7 @@ export const MenuWrapper = styled.div`
   left: -2px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 
 const IndexPage = () => {

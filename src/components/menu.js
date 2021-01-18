@@ -22,6 +22,14 @@ export const MenuButton = styled.button`
     font-size: 16px;
     margin-top: 10px;
   }
+
+  @media ${devices.mobile} {
+    transform: rotate(90deg) translateX(calc(-100% - 50px));
+    transform-origin: left bottom;
+    margin-top: 90px;
+    max-width: inherit;
+    text-align: center;
+  }
 `;
 export const MenuOverlay = styled.div`
   position: fixed;
@@ -39,7 +47,7 @@ export const MenuOverlay = styled.div`
   }
 
   @media ${devices.mobile} {
-    padding-left: 140px;
+    padding-left: 70px;
   }
 `;
 export const MenuList = styled.ul`
