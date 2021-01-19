@@ -91,7 +91,7 @@ const ImageTeaser = ({ data, side }) => {
   const [copyrightActive, setCopyrightActive] = useState(false);
   const { colors } = useContext(ThemeContext);
   const { ref, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.3,
     triggerOnce: true,
   });
   const teaserEl = useRef(null);
