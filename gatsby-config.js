@@ -4,7 +4,7 @@ module.exports = {
   siteMetadata: {
     title: 'Feinkost Umbria Höchberg',
     siteUrl: `http://www.ristorante-umbria.de/`,
-    description: `Besuchen Sie uns in unserem Ristorante Feinkost Umbria. Markthalle, Hauptstraße 65, 97204 Höchberg. Öffnungszeiten: Montag-Sonntag 10:00-14:30, 17:00-22:00`,
+    description: `Feinkost Umbria - Montag-Sonntag 10:00-14:30, 17:00-22:00 - Markthalle, Hauptstraße 65, 97204 Höchberg`,
     keywords:
       'Umbria, Höchberg, Würzburg, Feinkost, Pizza, Eis, Italienisch, Restaurant',
   },
@@ -26,12 +26,12 @@ module.exports = {
         short_name: 'Umbria',
         start_url: `/`,
         description:
-          'Besuchen Sie uns in unserem Ristorante Feinkost Umbria. Markthalle, Hauptstraße 65, 97204 Höchberg. Öffnungszeiten: Montag-Sonntag 10:00-14:30, 17:00-22:00',
+          'Feinkost Umbria - Montag-Sonntag 10:00-14:30, 17:00-22:00 - Markthalle, Hauptstraße 65, 97204 Höchberg',
         background_color: `#FDF9F7`,
         theme_color: `#FF5F5F`,
         display: `standalone`,
         lang: 'de',
-        icon: 'src/images/icon.svg',
+        icon: 'src/images/favicon.svg',
       },
     },
   ],
