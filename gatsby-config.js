@@ -27,8 +27,8 @@ module.exports = {
         start_url: `/`,
         description:
           'Feinkost Umbria - Montag-Sonntag 10:00-14:30, 17:00-22:00 - Markthalle, Hauptstraße 65, 97204 Höchberg',
-        background_color: `#FDF9F7`,
-        theme_color: `#FF5F5F`,
+        background_color: `#FFEDED`,
+        theme_color: `#FFEDED`,
         display: `standalone`,
         lang: 'de',
         icon: 'src/images/favicon.svg',
