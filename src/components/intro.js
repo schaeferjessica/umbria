@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { moduleSpace } from '../styles/container';
 import { devices } from '../styles/breakpoints';
 import { graphql, useStaticQuery } from 'gatsby';
+import aniScroll from '../ani-scroll';
 
 export const IntroContainer = styled.div`
   ${moduleSpace}
@@ -39,10 +40,7 @@ const Intro = ({ title }) => {
     const animationCompleted = target.classList.contains('animation-complete');
     const offset = animationCompleted ? 0 : target.clientHeight;
 
-    window.scrollTo({
-      top: rect.top - offset,
-      behavior: 'smooth',
-    });
+    aniScroll(rect.top - offset - 20, 800, 'linear');
   };
 
   useEffect(() => {

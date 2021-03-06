@@ -61,7 +61,8 @@ export default createGlobalStyle`
 
     &:hover,
     &.is-active {
-      background-color: white;
+      background-color: #ff5f5f;
+      color: white;
     }
   }
 

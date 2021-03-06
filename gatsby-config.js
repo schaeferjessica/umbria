@@ -9,7 +9,10 @@ module.exports = {
       'Umbria, Höchberg, Würzburg, Feinkost, Pizza, Eis, Italienisch, Restaurant',
   },
   plugins: [
-    {
+    `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
+    { 
       resolve: 'gatsby-source-contentful',
       options: {
         spaceId: process.env.SPACE_ID,

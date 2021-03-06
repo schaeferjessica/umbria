@@ -4,7 +4,8 @@ import { devices } from './breakpoints';
 export default createGlobalStyle`
   .container {
     max-width: 2000px;
-    margin: 0 auto;
+    margin-right: auto;
+    margin-left: auto;
     padding-left: 300px;
     padding-right: 150px;
 
@@ -24,6 +25,10 @@ export const moduleSpace = `
   margin-top: 150px;
 
   @media ${devices.tablet} {
-    margin-top: 60px;
+    margin-top: 100px;
+  }
+
+  @media ${devices.mobile} {
+    margin-top: 70px;
   }
 `;

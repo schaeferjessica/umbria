@@ -6,6 +6,7 @@ import { devices } from '../styles/breakpoints';
 import ThemeContext from '../styles/themecontext';
 import { useInView } from 'react-intersection-observer';
 import anime from 'animejs/lib/anime.es.js';
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 const TeaserContainer = styled.div`
   ${moduleSpace}
@@ -23,8 +24,8 @@ const Teaser = styled.div`
   }
 `;
 const TeaserText = styled.div`
-  padding-right: ${(props) => (props.side === 'right' ? '0' : '150px')};
-  padding-left: ${(props) => (props.side === 'right' ? '150px' : '0')};
+  padding-right: ${(props) => (props.side === 'right' ? '0' : '80px')};
+  padding-left: ${(props) => (props.side === 'right' ? '80px' : '0')};
   flex: 1;
   width: 45%;
 
@@ -58,9 +59,6 @@ const TeaserImage = styled.figure`
   }
 
   picture {
-    position: relative;
-    overflow: hidden;
-
     &:hover img {
       transform: scale(1.2);
     }
@@ -68,7 +66,7 @@ const TeaserImage = styled.figure`
 
   img {
     width: 100%;
-    transition: transform 700ms ease-in-out;
+    transition: opacity 500ms ease 0s, transform 0.5s linear 0s !important;
   }
 `;
 const Figcaption = styled.figcaption`
@@ -88,6 +86,7 @@ const CopyrightButton = styled.button`
 `;
 
 const ImageTeaser = ({ data, side }) => {
+  const image = getImage(data.image)
   const [copyrightActive, setCopyrightActive] = useState(false);
   const { colors } = useContext(ThemeContext);
   const { ref, inView } = useInView({
@@ -100,10 +99,10 @@ const ImageTeaser = ({ data, side }) => {
     if (inView) {
       const animation = anime({
         targets: teaserEl.current,
-        translateY: ['100%', '0%'],
+        translateY: ['20%', '0%'],
         opacity: [0, 1],
         easing: 'easeOutExpo',
-        duration: 1400,
+        duration: 2000,
         complete: () => {
           teaserEl.current.classList.add('animation-complete');
         },
@@ -116,9 +115,7 @@ const ImageTeaser = ({ data, side }) => {
     <TeaserContainer ref={ref} side={side}>
       <Teaser className="container" side={side} id={data.id} ref={teaserEl}>
         <TeaserImage>
-          <picture>
-            <img src={data.image} alt={data.altText} />
-          </picture>
+          <GatsbyImage image={image} alt={data.altText} />
           <Figcaption>
             <CopyrightButton
               color={colors}

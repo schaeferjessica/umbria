@@ -8,9 +8,10 @@ export const useContenfulImageTeasers = () => {
           contentfulid
           image {
             title
-            file {
-              url
-            }
+            gatsbyImageData(
+              width: 950 
+              height: 630
+            )
           }
           copyright
           title
@@ -27,7 +28,7 @@ export const useContenfulImageTeasers = () => {
   return data.contentfulImageTeasers.teasers.map((imageTeaser) => ({
     id: imageTeaser.contentfulid,
     title: imageTeaser.title,
-    image: imageTeaser.image.file.url,
+    image: imageTeaser.image.gatsbyImageData,
     altText: imageTeaser.image.title,
     copyright: imageTeaser.copyright,
     text: imageTeaser.text.raw,

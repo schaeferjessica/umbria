@@ -14,11 +14,11 @@ import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
 import styled from 'styled-components';
 
-export const ImageTeaserWrapper = styled.div`
+const ImageTeaserWrapper = styled.div`
   position: relative;
   overflow: hidden;
 `;
-export const MenuWrapper = styled.div`
+const MenuWrapper = styled.div`
   position: fixed;
   top: 21.8%;
   left: -2px;
