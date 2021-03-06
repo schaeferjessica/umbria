@@ -13,7 +13,6 @@ const SEO = ({ pageTitle, pageUrl }) => {
       <title>{siteTitle}</title>
       <meta name="description" content={description} />
       <meta name="generator" content="Gatsby.js" />
-      <meta name="”robots" content="noodp,noydir" />
       <meta name="keywords" content={keywords} />
       <meta name="author" content="Angelo Puglisi" />
       <meta property="og:site_name" content="Feinkost Umbria" />
