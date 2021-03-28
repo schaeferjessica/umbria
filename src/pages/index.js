@@ -10,6 +10,7 @@ import useContenfulImageTeasers from '../hooks/use-imageteasers';
 import useContenfulMenuPizza from '../hooks/use-menu-pizza';
 import useContenfulMenuStarter from '../hooks/use-menu-starter';
 import useContenfulMenuSpecial from '../hooks/use-menu-special';
+import useContenfulMenuIce from '../hooks/use-menu-ice';
 import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
 import styled from 'styled-components';
@@ -20,7 +21,7 @@ const ImageTeaserWrapper = styled.div`
 `;
 const MenuWrapper = styled.div`
   position: fixed;
-  top: 21.8%;
+  top: 10%;
   left: -2px;
   display: flex;
   flex-direction: column;
@@ -33,6 +34,7 @@ const IndexPage = () => {
   const menuPizza = useContenfulMenuPizza();
   const menuStarter = useContenfulMenuStarter();
   const menuSpecial = useContenfulMenuSpecial();
+  const menuIce = useContenfulMenuIce();
   const socialLinks = useContenfulSocialLinks();
   const impressum = useContenfulImpressum();
   const isEven = (n) => n % 2 === 0;
@@ -70,6 +72,12 @@ const IndexPage = () => {
         <Menu
           data={menuSpecial}
           position={3}
+          menuClick={handleMenuClick}
+          activeMenu={activeMenu}
+        />
+         <Menu
+          data={menuIce}
+          position={4}
           menuClick={handleMenuClick}
           activeMenu={activeMenu}
         />
