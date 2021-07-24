@@ -72,6 +72,14 @@ export const MenuList = styled.ul`
   li strong {
     font-weight: 500;
   }
+
+  p {
+    font-size: 14px;
+
+    @media ${devices.mobile} {
+      font-size: 12px;
+    }
+  }
 `;
 const rotate = keyframes`
   from {
