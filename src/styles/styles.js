@@ -58,12 +58,12 @@ export default createGlobalStyle`
       padding-top: 15px;
       padding-bottom: 10px;
     }
+  }
 
-    &:hover,
-    &.is-active {
-      background-color: #ff5f5f;
-      color: white;
-    }
+  a.button:hover,
+  a.button:focus-visible {
+    background-color: #ff5f5f;
+    color: white;
   }
 
   .prevent-scroll {
