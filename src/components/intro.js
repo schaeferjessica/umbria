@@ -53,8 +53,9 @@ const Intro = ({ title }) => {
     );
     const openingTimeDate = new Date(openingTime);
     const closingTimeDate = new Date(closingTime);
+    const isMonday = currentDate.getDay() === 1;
 
-    if (actualDate >= openingTimeDate && actualDate < closingTimeDate) {
+    if ((actualDate >= openingTimeDate && actualDate < closingTimeDate) && !isMonday) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
