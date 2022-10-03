@@ -34,7 +34,7 @@ module.exports = {
         theme_color: `#FFEDED`,
         display: `standalone`,
         lang: 'de',
-        icon: 'src/images/favicon.ico',
+        icon: 'src/images/favicon.svg',
       },
     },
   ],
