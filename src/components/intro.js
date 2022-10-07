@@ -54,6 +54,12 @@ const Intro = ({ title }) => {
     const openingTimeDate = new Date(openingTime);
     const closingTimeDate = new Date(closingTime);
     const isMonday = currentDate.getDay() === 1;
+    const holidayDate = new Date(closingTime);
+
+    // if currentDate is before holidayDate return false
+    if (currentDate < holidayDate) {
+      return setIsOpen(false);
+    }
 
     if ((actualDate >= openingTimeDate && actualDate < closingTimeDate) && !isMonday) {
       setIsOpen(true);
