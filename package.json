@@ -2,10 +2,10 @@
   "name": "umbria",
   "version": "1.0.0",
   "private": true,
-  "description": "umbria",
+  "description": "Feinkost Umbria Höchberg",
   "author": "Jessica Schäfer",
   "keywords": [
-    "gatsby"
+    "ristorante umbria höchberg"
   ],
   "scripts": {
     "develop": "cross-env GATSBY_GRAPHQL_IDE=playground gatsby develop",
