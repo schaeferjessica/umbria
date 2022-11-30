@@ -61,7 +61,11 @@ const Intro = ({ title }) => {
       return setIsOpen(false);
     }
 
-    if ((actualDate >= openingTimeDate && actualDate < closingTimeDate) && !isMonday) {
+    const actualDateTime = `${currentDate.getHours()}:${currentDate.getMinutes()}`
+    const openingDateTime = `${openingTimeDate.getHours()}:${openingTimeDate.getMinutes()}`
+    const closingDateTime = `${closingTimeDate.getHours()}:${closingTimeDate.getMinutes()}`
+
+    if ((actualDateTime >= openingDateTime && actualDateTime < closingDateTime) && !isMonday) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
