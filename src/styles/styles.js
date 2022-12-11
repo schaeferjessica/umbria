@@ -66,6 +66,10 @@ export default createGlobalStyle`
     color: white;
   }
 
+  hr {
+    border-top: 1px solid ${(props) => props.color.red};
+  }
+
   .prevent-scroll {
     position: relative;
     overflow: hidden;
