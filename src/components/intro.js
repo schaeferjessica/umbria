@@ -22,15 +22,31 @@ export const IntroContainer = styled.div`
 
 const Intro = ({ title }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const openingHours = useStaticQuery(graphql`
-    query {
-      hours: contentfulOpeningHours {
-        openingTime
-        closingTime
+  const data = useStaticQuery(graphql`
+  query {
+    holidyDataRange: contentfulHoliday {
+      startholiday
+      endholiday
+    }
+    offDay: contentfulOffDay {
+      day
+    }
+    days: allContentfulOpeningTimes {
+      nodes {
+        day
+        startTimeMorning
+        endTimeMorning
+        startTimeEvening
+        endTimeEvening
       }
     }
+  }
   `);
-  const { openingTime, closingTime } = openingHours.hours;
+  
+  const holiday = data.holidyDataRange
+  const openingTimes = data.days.nodes;
+  const offDay = data.offDay.day;
+  //const { openingTime, closingTime } = openingTimes.hours;
 
   const jumpTo = (e) => {
     e.preventDefault();
@@ -45,32 +61,44 @@ const Intro = ({ title }) => {
 
   useEffect(() => {
     const currentDate = new Date();
-    const actualDate = new Date(openingTime);
-    actualDate.setHours(
-      currentDate.getHours(),
-      currentDate.getMinutes(),
-      currentDate.getSeconds()
-    );
-    const openingTimeDate = new Date(openingTime);
-    const closingTimeDate = new Date(closingTime);
-    // const isMonday = currentDate.getDay() === 1;
-    const holidayDate = new Date(closingTime);
+    const actualTime = `${currentDate.getHours()}:${currentDate.getMinutes()}`
+    const startHoliday = new Date(holiday.startholiday);
+    const endHoliday = new Date(holiday.endholiday);
 
-    // if currentDate is before holidayDate return false
-    if (currentDate < holidayDate) {
+    // Holiday Check
+    if (currentDate >= startHoliday && currentDate <= endHoliday) {
+      return setIsOpen(false)
+    }
+
+    // get current day name from currentDate
+    const currentDay = currentDate.toLocaleString('en-EN', { weekday: 'long' });
+    if (currentDay === offDay) {
+      return setIsOpen(false)
+    }
+
+    // get the openingTime data for the current day
+    const currentOpeningDay = openingTimes.find(day => day.day === currentDay);
+    const startTimeMorning = new Date(currentOpeningDay.startTimeMorning);
+    const endTimeMorning = new Date(currentOpeningDay.endTimeMorning);
+    const startTimeEvening = new Date(currentOpeningDay.startTimeEvening);
+    const endTimeEvening = new Date(currentOpeningDay.endTimeEvening);
+
+    // convert dates into time strings
+    const openingTimeMorning = `${startTimeMorning.getHours()}:${startTimeMorning.getMinutes()}`
+    const closingTimeMorning = `${endTimeMorning.getHours()}:${endTimeMorning.getMinutes()}`
+    const openingTimeEvening = `${startTimeEvening.getHours()}:${startTimeEvening.getMinutes()}`
+    const closingTimeEvening = `${endTimeEvening.getHours()}:${endTimeEvening.getMinutes()}`
+
+    // Morning: if actual time is not in opening time range OR start and end time is null => return false (closed)
+    if ((actualTime < openingTimeMorning && actualTime >= closingTimeMorning) || (currentOpeningDay.startTimeMorning === null && currentOpeningDay.endTimeMorning === null)) {
       return setIsOpen(false);
     }
 
-    const actualDateTime = `${currentDate.getHours()}:${currentDate.getMinutes()}`
-    const openingDateTime = `${openingTimeDate.getHours()}:${openingTimeDate.getMinutes()}`
-    const closingDateTime = `${closingTimeDate.getHours()}:${closingTimeDate.getMinutes()}`
-
-    if ((actualDateTime >= openingDateTime && actualDateTime < closingDateTime)) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
+    // Evening: if actual time is not in opening time range OR start and end time is null => return false (closed)
+    if ((actualTime < openingTimeEvening && actualTime >= closingTimeEvening) || (currentOpeningDay.startTimeEvening === null && currentOpeningDay.endTimeEvening === null)) {
+      return setIsOpen(false);
     }
-  }, [openingTime, closingTime]);
+  }, [holiday, openingTimes]);
 
   return (
     <IntroContainer className="container">
