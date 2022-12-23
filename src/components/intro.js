@@ -22,6 +22,7 @@ export const IntroContainer = styled.div`
 
 const Intro = ({ title }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [isBreak, setIsBreak] = useState(false);
   const data = useStaticQuery(graphql`
   query {
     holidyDataRange: contentfulHoliday {
@@ -70,7 +71,7 @@ const Intro = ({ title }) => {
       return setIsOpen(false)
     }
 
-    // get current day name from currentDate
+    // closing day check
     const currentDay = currentDate.toLocaleString('en-EN', { weekday: 'long' });
     if (currentDay === offDay) {
       return setIsOpen(false)
@@ -89,6 +90,12 @@ const Intro = ({ title }) => {
     const openingTimeEvening = `${startTimeEvening.getHours()}:${(startTimeEvening.getMinutes() < 10 ? '0' : '') + startTimeEvening.getMinutes()}`
     const closingTimeEvening = `${endTimeEvening.getHours()}:${(endTimeEvening.getMinutes() < 10 ? '0' : '') + endTimeEvening.getMinutes()}`
 
+    // check for break
+    if (actualTime >= closingTimeMorning && actualTime < openingTimeEvening) {
+      setIsBreak(true);
+    }
+
+    
     // Morning: if actual time is not in opening time range OR start and end time is null => return false (closed)
     if ((actualTime < openingTimeMorning || (actualTime >= closingTimeMorning && actualTime < openingTimeEvening)) || (currentOpeningDay.startTimeMorning === null && currentOpeningDay.endTimeMorning === null)) {
       return setIsOpen(false);
@@ -104,7 +111,7 @@ const Intro = ({ title }) => {
     <IntroContainer className="container">
       <h1>{title}</h1>
       <a href="#openingHours" className="button" onClick={(e) => jumpTo(e)}>
-        {isOpen ? 'wir haben geöffnet' : 'wir haben geschlossen'}
+        {isOpen ? 'wir haben geöffnet' : isBreak ? 'wir haben Mittagspause' : 'wir haben geschlossen'}
       </a>
     </IntroContainer>
   );
