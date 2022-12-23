@@ -84,18 +84,18 @@ const Intro = ({ title }) => {
     const endTimeEvening = new Date(currentOpeningDay.endTimeEvening);
 
     // convert dates into time strings
-    const openingTimeMorning = `${startTimeMorning.getHours()}:${startTimeMorning.getMinutes()}`
-    const closingTimeMorning = `${endTimeMorning.getHours()}:${endTimeMorning.getMinutes()}`
-    const openingTimeEvening = `${startTimeEvening.getHours()}:${startTimeEvening.getMinutes()}`
-    const closingTimeEvening = `${endTimeEvening.getHours()}:${endTimeEvening.getMinutes()}`
+    const openingTimeMorning = `${startTimeMorning.getHours()}:${(startTimeMorning.getMinutes() < 10 ? '0' : '') + startTimeMorning.getMinutes()}`
+    const closingTimeMorning = `${endTimeMorning.getHours()}:${(endTimeMorning.getMinutes() < 10 ? '0' : '') + endTimeMorning.getMinutes()}`
+    const openingTimeEvening = `${startTimeEvening.getHours()}:${(startTimeEvening.getMinutes() < 10 ? '0' : '') + startTimeEvening.getMinutes()}`
+    const closingTimeEvening = `${endTimeEvening.getHours()}:${(endTimeEvening.getMinutes() < 10 ? '0' : '') + endTimeEvening.getMinutes()}`
 
     // Morning: if actual time is not in opening time range OR start and end time is null => return false (closed)
-    if ((actualTime < openingTimeMorning && actualTime >= closingTimeMorning) || (currentOpeningDay.startTimeMorning === null && currentOpeningDay.endTimeMorning === null)) {
+    if ((actualTime < openingTimeMorning || (actualTime >= closingTimeMorning && actualTime < openingTimeEvening)) || (currentOpeningDay.startTimeMorning === null && currentOpeningDay.endTimeMorning === null)) {
       return setIsOpen(false);
     }
 
     // Evening: if actual time is not in opening time range OR start and end time is null => return false (closed)
-    if ((actualTime < openingTimeEvening && actualTime >= closingTimeEvening) || (currentOpeningDay.startTimeEvening === null && currentOpeningDay.endTimeEvening === null)) {
+    if (((actualTime < openingTimeEvening && actualTime > closingTimeMorning) || actualTime >= closingTimeEvening) || (currentOpeningDay.startTimeEvening === null && currentOpeningDay.endTimeEvening === null)) {
       return setIsOpen(false);
     }
   }, [holiday, openingTimes]);
