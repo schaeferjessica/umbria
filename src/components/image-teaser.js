@@ -50,6 +50,12 @@ const TeaserText = styled.div`
   .button {
     margin-top: 25px;
   }
+
+  p:not(:first-child) {
+    margin-top: 10px;
+  }
+
+
 `;
 const TeaserImage = styled.figure`
   width: 55%;
