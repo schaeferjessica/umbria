@@ -9,7 +9,7 @@ import ImageTeaser from '../components/image-teaser';
 import useContenfulImageTeasers from '../hooks/use-imageteasers';
 import useContenfulMenuPizza from '../hooks/use-menu-pizza';
 import useContenfulMenuStarter from '../hooks/use-menu-starter';
-import useContenfulMenuSpecial from '../hooks/use-menu-special';
+// import useContenfulMenuSpecial from '../hooks/use-menu-special';
 import useContenfulMenuIce from '../hooks/use-menu-ice';
 import useContenfulImpressum from '../hooks/use-impressum';
 import useContenfulSocialLinks from '../hooks/use-socialLinks';
@@ -33,7 +33,7 @@ const IndexPage = () => {
   const imageTeasers = useContenfulImageTeasers();
   const menuPizza = useContenfulMenuPizza();
   const menuStarter = useContenfulMenuStarter();
-  const menuSpecial = useContenfulMenuSpecial();
+  // const menuSpecial = useContenfulMenuSpecial();
   const menuIce = useContenfulMenuIce();
   const socialLinks = useContenfulSocialLinks();
   const impressum = useContenfulImpressum();
@@ -69,12 +69,12 @@ const IndexPage = () => {
           menuClick={handleMenuClick}
           activeMenu={activeMenu}
         />
-        <Menu
+        {/* <Menu
           data={menuSpecial}
           position={3}
           menuClick={handleMenuClick}
           activeMenu={activeMenu}
-        />
+        /> */}
          <Menu
           data={menuIce}
           position={4}
